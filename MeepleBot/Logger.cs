@@ -3,12 +3,17 @@ using NotEnoughLogs.Behaviour;
 
 namespace MeepleBot;
 
-public sealed class Logging
+enum Logs
 {
-   private static readonly Lazy<Logging> _instance = new(() => new Logging());
-   public static Logging Instance => _instance.Value;
-   public Logger Logger { get; }
-   private Logging()
+   Token,
+   Discord,
+}
+
+public static class Logging
+{
+   public static Logger Logger;
+
+   static Logging()
    {
       var configuration = new LoggerConfiguration
       {
@@ -17,10 +22,4 @@ public sealed class Logging
       };
       Logger = new Logger(configuration);
    }
-}
-
-enum Logs
-{
-   Token,
-   Discord,
 }

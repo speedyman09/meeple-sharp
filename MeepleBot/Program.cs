@@ -15,9 +15,9 @@ static class MeepleBot
             Intents = DiscordIntents.Guilds,
         });
         await client.ConnectAsync();
-        Logging.Instance.Logger.LogInfo(Logs.Discord, $"Logged in as {client.CurrentUser.Username}");
+        Logging.Logger.LogInfo(Logs.Discord, $"Logged in as {client.CurrentUser.Username}");
         await RegisterCommands(client);
-        Logging.Instance.Logger.LogInfo(Logs.Discord, "Slash commands registered");
+        Logging.Logger.LogInfo(Logs.Discord, "Slash commands registered");
         await Task.Delay(-1);
     }
 
@@ -31,7 +31,7 @@ static class MeepleBot
             }
             catch (FileNotFoundException)
             {
-                Logging.Instance.Logger.LogCritical(Logs.Token, "token.txt was not found, exiting");
+                Logging.Logger.LogCritical(Logs.Token, "token.txt was not found, exiting");
                 Task.Delay(1000);
                 Environment.Exit(1);
             }
