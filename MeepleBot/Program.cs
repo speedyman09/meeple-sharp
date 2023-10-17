@@ -1,5 +1,7 @@
 ﻿using DSharpPlus;
-using System.Threading.Tasks;
+using DSharpPlus.SlashCommands;
+using MeepleBot.commands;
+
 namespace MeepleBot;
 
 static class MeepleBot
@@ -13,6 +15,9 @@ static class MeepleBot
             Intents = DiscordIntents.Guilds,
         });
         await client.ConnectAsync();
+        Logging.Instance.Logger.LogInfo(Logs.Discord, $"Logged in as {client.CurrentUser.Username}");
+        await RegisterCommands(client);
+        Logging.Instance.Logger.LogInfo(Logs.Discord, "Slash commands registered");
         await Task.Delay(-1);
     }
 
@@ -24,7 +29,7 @@ static class MeepleBot
             {
                 return File.ReadAllText("token.txt");
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 Logging.Instance.Logger.LogCritical(Logs.Token, "token.txt was not found, exiting");
                 Task.Delay(1000);
@@ -32,5 +37,12 @@ static class MeepleBot
             }
             return "";
         });
+    }
+
+    static Task RegisterCommands(DiscordClient client)
+    {
+        var slash = client.UseSlashCommands();
+        slash.RegisterCommands<AddToDb>();
+        return Task.CompletedTask;
     }
 }

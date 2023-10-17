@@ -13,7 +13,7 @@ public sealed class Logging
       var configuration = new LoggerConfiguration
       {
          Behaviour = new DirectLoggingBehaviour(),
-         MaxLevel = LogLevel.Trace
+         MaxLevel = LogLevel.Info
       };
       Logger = new Logger(configuration);
    }
@@ -22,5 +22,5 @@ public sealed class Logging
 enum Logs
 {
    Token,
-   DiscordError
+   Discord,
 }
