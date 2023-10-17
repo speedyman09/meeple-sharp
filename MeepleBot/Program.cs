@@ -18,18 +18,19 @@ static class MeepleBot
 
     static Task<String> GetToken()
     {
-        var token = String.Empty;
-        try
+        return Task.Run(() =>
         {
-            token = File.ReadAllText("token.txt");
-        }
-        catch (FileNotFoundException ex)
-        {
-            Logging.Instance.Logger.LogCritical(Logs.Token, "token.txt was not found, exiting");
-            Task.Delay(1000);
-            Environment.Exit(1);
-        }
-
-        return Task.Run(() => token);
+            try
+            {
+                return File.ReadAllText("token.txt");
+            }
+            catch (FileNotFoundException ex)
+            {
+                Logging.Instance.Logger.LogCritical(Logs.Token, "token.txt was not found, exiting");
+                Task.Delay(1000);
+                Environment.Exit(1);
+            }
+            return "";
+        });
     }
 }
