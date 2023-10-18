@@ -29,8 +29,6 @@ public class ApplicationCommand : ApplicationCommandModule
                 Username = username,
             }); 
         });
-        var response = new DiscordInteractionResponseBuilder()
-            .WithContent("You have successfully applied.");
         await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("You have successfully applied"));
     }
 }
