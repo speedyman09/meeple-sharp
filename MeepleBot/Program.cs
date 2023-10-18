@@ -43,6 +43,7 @@ static class MeepleBot
     {
         var slash = clientContext.UseSlashCommands();
         slash.RegisterCommands<ApplicationCommand>();
+        slash.RegisterCommands<QueueCommand>();
         return Task.CompletedTask;
     }
 }
