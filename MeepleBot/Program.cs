@@ -6,7 +6,7 @@ namespace MeepleBot;
 
 static class MeepleBot
 {
-    static async Task Main()
+    private static async Task Main()
     {
         DiscordClient client = new(new DiscordConfiguration()
         {
@@ -21,7 +21,7 @@ static class MeepleBot
         await Task.Delay(-1);
     }
 
-    static Task<String> GetToken()
+    private static Task<String> GetToken()
     {
         return Task.Run(() =>
         {
@@ -39,10 +39,10 @@ static class MeepleBot
         });
     }
 
-    static Task RegisterCommands(DiscordClient client)
+    private static Task RegisterCommands(DiscordClient client)
     {
         var slash = client.UseSlashCommands();
-        slash.RegisterCommands<AddToDb>();
+        slash.RegisterCommands<DatabaseCommands>();
         return Task.CompletedTask;
     }
 }

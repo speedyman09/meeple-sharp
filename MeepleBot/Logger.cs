@@ -3,7 +3,7 @@ using NotEnoughLogs.Behaviour;
 
 namespace MeepleBot;
 
-enum Logs
+internal enum Logs
 {
    Token,
    Discord,
@@ -11,7 +11,7 @@ enum Logs
 
 public static class Logging
 {
-   public static Logger Logger;
+   public static readonly Logger Logger;
 
    static Logging()
    {

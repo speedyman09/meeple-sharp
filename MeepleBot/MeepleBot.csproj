@@ -12,6 +12,7 @@
       <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-01842" />
       <PackageReference Include="DSharpPlus.SlashCommands" Version="5.0.0-nightly-01842" />
       <PackageReference Include="NotEnoughLogs" Version="2.0.3" />
+      <PackageReference Include="Realm" Version="11.5.0" />
     </ItemGroup>
 
 </Project>

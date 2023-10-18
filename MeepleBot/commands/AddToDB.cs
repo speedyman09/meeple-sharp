@@ -1,9 +1,10 @@
 ﻿using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using MeepleBot.objects;
 
 namespace MeepleBot.commands;
 
-public class AddToDb : ApplicationCommandModule
+public class DatabaseCommands : ApplicationCommandModule
 {
     [SlashCommand("addToDb", "Adds something to the realm database")]
     static Task addtodb (
@@ -12,6 +13,13 @@ public class AddToDb : ApplicationCommandModule
         string obj
         )
     {
+        realmdb.realmdatabase.WriteAsync(() =>
+        {
+            realmdb.realmdatabase.Add<Item>(new Item
+            {
+                text = obj
+            });
+        });
         interaction.CreateResponseAsync(new DiscordInteractionResponseBuilder().WithContent(obj));
         return Task.CompletedTask;
     }
