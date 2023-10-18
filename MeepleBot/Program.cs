@@ -39,10 +39,10 @@ static class MeepleBot
         });
     }
 
-    private static Task RegisterCommands(DiscordClient client)
+    private static Task RegisterCommands(DiscordClient clientContext)
     {
-        var slash = client.UseSlashCommands();
-        slash.RegisterCommands<DatabaseCommands>();
+        var slash = clientContext.UseSlashCommands();
+        slash.RegisterCommands<ApplicationCommand>();
         return Task.CompletedTask;
     }
 }

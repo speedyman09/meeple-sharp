@@ -12,7 +12,6 @@ internal enum Logs
 public static class Logging
 {
    public static readonly Logger Logger;
-
    static Logging()
    {
       var configuration = new LoggerConfiguration
