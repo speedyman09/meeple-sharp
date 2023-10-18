@@ -13,6 +13,7 @@ public class ApplicationCommand : ApplicationCommandModule
         [Option("username", "What your IGN is")]
         string username,
         [Option("game", "What game you want to be whitelisted on")]
+        [Choice("Astroneer", "astroneer")]
         string game
         )
     {
@@ -30,5 +31,6 @@ public class ApplicationCommand : ApplicationCommandModule
             }); 
         });
         await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("You have successfully applied"));
+        Logging.Logger.LogInfo(Logs.Discord, $"{context.User.Username} ran the /apply comamnd. \nParams: {username}, {game}");
     }
 }
