@@ -26,19 +26,28 @@ public class ApplicationCommand : ApplicationCommandModule
         {
             using (var localRealm = Realm.GetInstance())
             {
-                await localRealm.WriteAsync(() =>
+                if (!localRealm.All<Application>().Any(application => application.DiscordId == context.User.Id.ToString()))
                 {
-                    localRealm.Add(new Application
+                    await localRealm.WriteAsync(() =>
                     {
-                        Time = unixTime,
-                        DiscordId = context.User.Id.ToString(),
-                        Game = game,
-                        Username = username,
+                        localRealm.Add(new Application
+                        {
+                            Time = unixTime,
+                            DiscordId = context.User.Id.ToString(),
+                            Game = game,
+                            Username = username,
+                        });
                     });
-                });
+                }
+                else
+                {
+                    await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("You have already applied."));
+                    return;
+                }
+                
             }
             await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("You have successfully applied"));
-            Logging.Logger.LogInfo(Logs.Discord, $"{context.User.Username} ran the /apply comamnd. \nParams: {username}, {game}");
+            Logging.Logger.LogInfo(Logs.Discord, $"{context.User.Username} ran the /apply command. \nParams: {username}, {game}");
         }
         catch (Exception ex)
         {

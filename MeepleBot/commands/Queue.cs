@@ -28,5 +28,6 @@ public class QueueCommand : ApplicationCommand
        }
        
        await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent(responseBuilder.ToString()));
+       Logging.Logger.LogInfo(Logs.Discord, $"{context.User.Username} ran the /queue command. \nParams: {game}");
     }
 }
