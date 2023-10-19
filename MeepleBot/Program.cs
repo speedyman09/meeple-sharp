@@ -12,7 +12,7 @@ static class MeepleBot
         {
             Token = (await GetToken()),
             TokenType = TokenType.Bot,
-            Intents = DiscordIntents.Guilds,
+            Intents = DiscordIntents.All,
         });
         await client.ConnectAsync();
         Logging.Logger.LogInfo(Logs.Discord, $"Logged in as {client.CurrentUser.Username}");
@@ -44,6 +44,7 @@ static class MeepleBot
         var slash = clientContext.UseSlashCommands();
         slash.RegisterCommands<ApplicationCommand>();
         slash.RegisterCommands<QueueCommand>();
+        slash.RegisterCommands<NotifyCommand>();
         return Task.CompletedTask;
     }
 }

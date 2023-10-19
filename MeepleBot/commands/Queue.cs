@@ -16,7 +16,7 @@ public class QueueCommand : ApplicationCommand
         string game
         )
     {
-        await context.DeferAsync();
+        await context.DeferAsync(ephemeral: true);
         
        var localRealm = Realm.GetInstance();
        var applications = localRealm.All<Application>().Where(application => application.Game == game && application.Accepted == false);
@@ -24,7 +24,7 @@ public class QueueCommand : ApplicationCommand
        var responseBuilder = new StringBuilder($"Queue for {game}:\n");
        foreach (var application in applications)
        {
-           responseBuilder.AppendLine($"<@{application.DiscordId}> - {application.Username}\n");
+           responseBuilder.AppendLine($"<@{application.DiscordId}>```{application.Username}```");
        }
        
        await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent(responseBuilder.ToString()));
