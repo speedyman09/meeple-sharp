@@ -24,7 +24,7 @@ public class ApplicationCommand : ApplicationCommandModule
 
         try
         {
-            using (var localRealm = Realm.GetInstance())
+            using (var localRealm = await Realm.GetInstanceAsync())
             {
                 if (!localRealm.All<Application>().Any(application => application.DiscordId == context.User.Id.ToString()))
                 {

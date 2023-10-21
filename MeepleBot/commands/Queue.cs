@@ -18,7 +18,7 @@ public class QueueCommand : ApplicationCommand
     {
         await context.DeferAsync(ephemeral: true);
         
-       var localRealm = Realm.GetInstance();
+       var localRealm = await Realm.GetInstanceAsync();
        var applications = localRealm.All<Application>().Where(application => application.Game == game && application.Accepted == false);
 
        var responseBuilder = new StringBuilder($"Queue for {game}:\n");

@@ -16,16 +16,14 @@ public class NotifyCommand : ApplicationCommand
     {
         await context.DeferAsync(ephemeral: true);
         
-        var localRealm = Realm.GetInstance();
+        var localRealm = await Realm.GetInstanceAsync();
         var userApplication = localRealm.All<Application>().FirstOrDefault(application => application.DiscordId == user1.Id.ToString() && application.Accepted == false);
         
         if (userApplication != null)
         {
-            using (var transaction = localRealm.BeginWrite())
-            {
-                userApplication.Accepted = true;
-                transaction.Commit();
-            }
+            using var transaction = await localRealm.BeginWriteAsync();
+            userApplication.Accepted = true;
+            await transaction.CommitAsync();
         }
         else
         {
