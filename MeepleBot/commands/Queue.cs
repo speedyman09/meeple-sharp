@@ -24,7 +24,7 @@ public class QueueCommand : ApplicationCommand
        var responseBuilder = new StringBuilder($"Queue for {game}:\n");
        foreach (var application in applications)
        {
-           responseBuilder.AppendLine($"<@{application.DiscordId}>```{application.Username}```");
+           responseBuilder.AppendLine($"<@{application.DiscordId}> applied at <t:{Convert.ToInt64(application.Time)/1000}:t>```{application.Username}```");
        }
        
        await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent(responseBuilder.ToString()));
