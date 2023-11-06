@@ -20,7 +20,7 @@ public class QueueCommand : ApplicationCommand
         await context.DeferAsync(ephemeral: true);
         
        var realm = new RealmDatabaseService();
-       var applications = await realm.GetAllApplications(game);
+       var applications = await realm.GetApplications(game);
 
        var responseBuilder = new StringBuilder($"Queue for {game}:\n");
        foreach (var application in applications)

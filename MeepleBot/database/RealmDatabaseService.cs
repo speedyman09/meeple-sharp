@@ -44,7 +44,7 @@ public class RealmDatabaseService
             .FirstOrDefault(application => application.DiscordId == id && application.Accepted == false);
         return Task.FromResult(application);
     }
-    public Task<IQueryable<ApplicationObject>> GetAllApplications(string game)
+    public Task<IQueryable<ApplicationObject>> GetApplications(string game)
     {
         var application = _realm.All<ApplicationObject>().Where(application => application.Game == game && application.Accepted == false);
         return Task.FromResult(application);

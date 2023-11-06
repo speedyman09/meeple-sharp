@@ -3,7 +3,7 @@ using DSharpPlus.SlashCommands;
 using MeepleBot.commands;
 
 namespace MeepleBot;
-
+// TODO: Convert all bot responses to embeds
 static class MeepleBot
 {
     private static async Task Main()
