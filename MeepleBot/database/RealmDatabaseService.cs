@@ -1,6 +1,7 @@
 using DSharpPlus.Entities;
 using MeepleBot.objects;
 using Realms;
+using Realms.Sync;
 
 namespace MeepleBot.database;
 
@@ -36,5 +37,22 @@ public class RealmDatabaseService
     {
         return Task.FromResult(_realm.All<Application>().Any(application => application.DiscordId == id));
     }
-    
+
+    public Task<Application?> GetUserApplication(string id)
+    {
+        var application = _realm.All<Application>()
+            .FirstOrDefault(application => application.DiscordId == id && application.Accepted == false);
+        return Task.FromResult(application);
+    }
+    public Task<IQueryable<Application>> GetAllApplications(string game)
+    {
+        var application = _realm.All<Application>().Where(application => application.Game == game && application.Accepted == false);
+        return Task.FromResult(application);
+    }
+    public async Task AcceptUser(Application userApplication)
+    {
+        using var transaction = await _realm.BeginWriteAsync();
+        userApplication.Accepted = true;
+        await transaction.CommitAsync();
+    }
 }

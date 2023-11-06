@@ -1,5 +1,6 @@
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using MeepleBot.database;
 using MeepleBot.objects;
 using Realms;
 
@@ -8,7 +9,7 @@ namespace MeepleBot.commands;
 public class NotifyCommand : ApplicationCommand
 {
     [SlashCommand("notify", "Notify a user")]
-    public async Task notify(
+    public async Task Notify(
         InteractionContext context,
         [Option("user", "The user you want to notify")]
         DiscordUser user1
@@ -16,14 +17,12 @@ public class NotifyCommand : ApplicationCommand
     {
         await context.DeferAsync(ephemeral: true);
         
-        var localRealm = await Realm.GetInstanceAsync();
-        var userApplication = localRealm.All<Application>().FirstOrDefault(application => application.DiscordId == user1.Id.ToString() && application.Accepted == false);
+        var realm = new RealmDatabaseService();
+        var userApplication = await realm.GetUserApplication(user1.Id.ToString());
         
         if (userApplication != null)
         {
-            using var transaction = await localRealm.BeginWriteAsync();
-            userApplication.Accepted = true;
-            await transaction.CommitAsync();
+            await realm.AcceptUser(userApplication);
         }
         else
         {

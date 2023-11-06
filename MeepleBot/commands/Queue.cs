@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using MeepleBot.database;
 using MeepleBot.objects;
 using Realms;
 
@@ -9,7 +10,7 @@ namespace MeepleBot.commands;
 public class QueueCommand : ApplicationCommand
 {   
     [SlashCommand("queue", "Returns the queue for a game")]
-    public async Task List(
+    public async Task Queue(
         InteractionContext context,
         [Option("game", "The game you want to view the queue of")]
         [Choice("Astroneer", "astroneer")]
@@ -18,8 +19,8 @@ public class QueueCommand : ApplicationCommand
     {
         await context.DeferAsync(ephemeral: true);
         
-       var localRealm = await Realm.GetInstanceAsync();
-       var applications = localRealm.All<Application>().Where(application => application.Game == game && application.Accepted == false);
+       var realm = new RealmDatabaseService();
+       var applications = await realm.GetAllApplications(game);
 
        var responseBuilder = new StringBuilder($"Queue for {game}:\n");
        foreach (var application in applications)
