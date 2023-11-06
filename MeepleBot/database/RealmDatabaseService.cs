@@ -56,15 +56,15 @@ public class RealmDatabaseService
         await transaction.CommitAsync();
     }
 
-    public async Task AddUser(string id, string username)
+    public async Task AddUsers(IList<UserObject> users)
     {
         await _realm.WriteAsync(() =>
         {
-            _realm.Add(new UserObject
+            foreach (var user in users)
             {
-                DiscordId = id,
-                Username = username,
-            });
+                _realm.Add(user);
+            }
         });
+        _realm.Dispose();
     }
 }
