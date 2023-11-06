@@ -23,7 +23,7 @@ public class ApplicationCommand : ApplicationCommandModule
         var databaseService = new RealmDatabaseService();
         try
         { 
-            if (!await databaseService.ApplicationExists(context.User.Id.ToString())) 
+            if (!await databaseService.ApplicationExists(context.User.Id.ToString())) // Checks if the application already exists
             {
                 await databaseService.CreateApplication(context.User.Id.ToString(), game, username);
             }

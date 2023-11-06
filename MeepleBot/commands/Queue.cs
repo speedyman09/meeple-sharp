@@ -19,13 +19,13 @@ public class QueueCommand : ApplicationCommand
     {
         await context.DeferAsync(ephemeral: true);
         
-       var realm = new RealmDatabaseService();
-       var applications = await realm.GetApplications(game);
+       var databaseService = new RealmDatabaseService();
+       var applications = await databaseService.GetApplications(game);
 
        var responseBuilder = new StringBuilder($"Queue for {game}:\n");
        foreach (var application in applications)
        {
-           responseBuilder.AppendLine($"<@{application.DiscordId}> applied at <t:{Convert.ToInt64(application.Time)/1000}:t>```{application.Username}```");
+           responseBuilder.AppendLine($"<@{application.DiscordId}> applied at <t:{Convert.ToInt64(application.Time)/1000}:t>```{application.Username}```"); // <t: x :t> is discord timestamp, this accounts for different timezones
        }
        
        await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent(responseBuilder.ToString()));

@@ -17,12 +17,12 @@ public class NotifyCommand : ApplicationCommand
     {
         await context.DeferAsync(ephemeral: true);
         
-        var realm = new RealmDatabaseService();
-        var userApplication = await realm.GetUserApplication(user1.Id.ToString());
+        var databaseService = new RealmDatabaseService();
+        var userApplication = await databaseService.GetUserApplication(user1.Id.ToString());
         
         if (userApplication != null)
         {
-            await realm.AcceptUser(userApplication);
+            await databaseService.AcceptUser(userApplication);
         }
         else
         {
@@ -31,7 +31,8 @@ public class NotifyCommand : ApplicationCommand
         }
 
         await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Notifying <@{userApplication.DiscordId}>"));
-        await context.Channel.SendMessageAsync(new DiscordMessageBuilder().WithContent($"<@{user1.Id}>, you have been whitelisted.").WithAllowedMention(new UserMention(user1)));
+        await context.Channel.SendMessageAsync(new DiscordMessageBuilder().WithContent($"<@{user1.Id}>, you have been whitelisted.").WithAllowedMention(new UserMention(user1))); 
+        // The "WithAllowedMentions" is necessary since discord does not allow bots to mention users by default
         Logging.Logger.LogInfo(Logs.Discord, $"{context.User.Username} ran the /notify command. \nParams: {user1}");
     }
 }

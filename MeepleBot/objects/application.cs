@@ -12,5 +12,5 @@ public class ApplicationObject : RealmObject
     [MapTo("username")]
     public required string Username { get; set; }
     [MapTo("accepted")] 
-    public bool Accepted { get; set; } = false;
+    public bool Accepted { get; set; } = false; // Should be false by default
 }

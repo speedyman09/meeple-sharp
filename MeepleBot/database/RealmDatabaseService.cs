@@ -5,6 +5,7 @@ using Realms.Sync;
 
 namespace MeepleBot.database;
 
+// Could probably divide this into subclasses? for example, one dedicated to working with users and another dedicated to working with applications
 public class RealmDatabaseService
 {
     private readonly Realm _realm;

@@ -2,6 +2,7 @@
 
 namespace MeepleBot.objects;
 
+// This has no real use other than the "benchmark" command
 public class UserObject : RealmObject
 {
     [MapTo("discordid")] 
