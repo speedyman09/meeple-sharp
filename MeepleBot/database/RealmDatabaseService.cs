@@ -23,7 +23,7 @@ public class RealmDatabaseService
         string unixTime = time.ToUnixTimeMilliseconds().ToString();
         await _realm.WriteAsync(() =>
         {
-            _realm.Add(new Application
+            _realm.Add(new ApplicationObject()
             {
                 Time = unixTime,
                 DiscordId = id,
@@ -35,24 +35,36 @@ public class RealmDatabaseService
 
     public Task<bool> ApplicationExists(string id)
     {
-        return Task.FromResult(_realm.All<Application>().Any(application => application.DiscordId == id));
+        return Task.FromResult(_realm.All<ApplicationObject>().Any(application => application.DiscordId == id));
     }
 
-    public Task<Application?> GetUserApplication(string id)
+    public Task<ApplicationObject?> GetUserApplication(string id)
     {
-        var application = _realm.All<Application>()
+        var application = _realm.All<ApplicationObject>()
             .FirstOrDefault(application => application.DiscordId == id && application.Accepted == false);
         return Task.FromResult(application);
     }
-    public Task<IQueryable<Application>> GetAllApplications(string game)
+    public Task<IQueryable<ApplicationObject>> GetAllApplications(string game)
     {
-        var application = _realm.All<Application>().Where(application => application.Game == game && application.Accepted == false);
+        var application = _realm.All<ApplicationObject>().Where(application => application.Game == game && application.Accepted == false);
         return Task.FromResult(application);
     }
-    public async Task AcceptUser(Application userApplication)
+    public async Task AcceptUser(ApplicationObject userApplication)
     {
         using var transaction = await _realm.BeginWriteAsync();
         userApplication.Accepted = true;
         await transaction.CommitAsync();
+    }
+
+    public async Task AddUser(string id, string username)
+    {
+        await _realm.WriteAsync(() =>
+        {
+            _realm.Add(new UserObject
+            {
+                DiscordId = id,
+                Username = username,
+            });
+        });
     }
 }

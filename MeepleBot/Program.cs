@@ -45,6 +45,7 @@ static class MeepleBot
         slash.RegisterCommands<ApplicationCommand>();
         slash.RegisterCommands<QueueCommand>();
         slash.RegisterCommands<NotifyCommand>();
+        slash.RegisterCommands<BenchmarkCommand>();
         return Task.CompletedTask;
     }
 }

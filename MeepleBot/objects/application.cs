@@ -1,7 +1,7 @@
 using Realms;
 namespace MeepleBot.objects;
 
-public class Application : RealmObject
+public class ApplicationObject : RealmObject
 {
     [MapTo("time")]
     public required string Time { get; set; }
