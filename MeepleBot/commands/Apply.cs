@@ -1,9 +1,6 @@
-﻿using DSharpPlus;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using MeepleBot.database;
-using MeepleBot.objects;
-using Realms;
 
 namespace MeepleBot.commands;
 
@@ -14,27 +11,40 @@ public class ApplicationCommand : ApplicationCommandModule
         InteractionContext context,
         [Option("username", "What your IGN is")]
         string username,
-        [Option("game", "What game you want to be whitelisted on")]
-        [Choice("Astroneer", "astroneer")]
+        [Option("game", "What game you want to be whitelisted on")] [Choice("Astroneer", "astroneer")]
         string game
     )
     {
         await context.DeferAsync();
         var databaseService = new RealmDatabaseService();
         try
-        { 
-            if (!await databaseService.ApplicationExists(context.User.Id.ToString())) // Checks if the application already exists
+        {
+            if (!await databaseService.ApplicationExists(context.User.Id
+                    .ToString())) // Checks if the application already exists
             {
                 await databaseService.CreateApplication(context.User.Id.ToString(), game, username);
             }
-            else { await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("You have already applied.")); return; }
-             
-            await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("You have successfully applied"));
-            Logging.Logger.LogInfo(Logs.Discord, $"{context.User.Username} ran the /apply command. \nParams: {username}, {game}");
+            else
+            {
+                var failEmbed = new DiscordEmbedBuilder()
+                    .WithTitle("Application")
+                    .WithDescription("You have already applied.")
+                    .WithColor(DiscordColor.Blurple);
+                await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(failEmbed));
+                return;
+            }
+
+            var successEmbed = new DiscordEmbedBuilder()
+                .WithTitle("Application")
+                .WithDescription("You have successfully applied")
+                .WithColor(DiscordColor.Blurple);
+            await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(successEmbed));
+            Logging.Logger.LogInfo(Logs.Command,
+                $"{context.User.Username} ran the /apply command. \nParams: {username}, {game}");
         }
         catch (Exception ex)
         {
-            Logging.Logger.LogError(Logs.Discord, $"Error processing /apply command: {ex.Message}");
+            Logging.Logger.LogError(Logs.Command, $"Error processing /apply command: {ex.Message}");
         }
     }
 }

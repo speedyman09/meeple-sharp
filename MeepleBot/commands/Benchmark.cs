@@ -12,7 +12,7 @@ public class BenchmarkCommand : ApplicationCommand
     public async Task Benchmark(InteractionContext context)
     {
         await context.DeferAsync();
-        
+
         var databaseService = new RealmDatabaseService();
         var members = context.Guild.Members;
 
@@ -20,13 +20,18 @@ public class BenchmarkCommand : ApplicationCommand
 
         var usersToAdd = members.Values
             .Select(member => new UserObject { DiscordId = member.Id.ToString(), Username = member.Username })
-            .ToList(); 
-        await databaseService.AddUsers(usersToAdd); 
+            .ToList();
+        await databaseService.AddUsers(usersToAdd);
 
         var endTime = DateTimeOffset.UtcNow;
         var elapsedMilliseconds = Math.Round((endTime - startTime).TotalMilliseconds);
 
+        var successEmbed = new DiscordEmbedBuilder()
+            .WithTitle("Benchmark")
+            .WithDescription($"Added {members.Count} users to the database, took {elapsedMilliseconds} ms")
+            .WithColor(DiscordColor.Blurple);
         await context.FollowUpAsync(new DiscordFollowupMessageBuilder()
-            .WithContent($"Added {members.Count} users to the database, took {elapsedMilliseconds} ms"));
+            .AddEmbed(successEmbed));
+        Logging.Logger.LogInfo(Logs.Command, $"{context.User.Username} ran the /benchmark command.");
     }
 }
