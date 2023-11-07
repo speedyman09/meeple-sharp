@@ -27,7 +27,7 @@ public class NotifyCommand : ApplicationCommand
             var failedEmbed = new DiscordEmbedBuilder()
                 .WithTitle("Notification")
                 .WithDescription("User has not applied, or has already been accepted.")
-                .WithColor(DiscordColor.Blurple);
+                .WithColor(DiscordColor.Red);
             await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(failedEmbed));
             return;
         }

@@ -27,7 +27,7 @@ static class MeepleBot
         Logging.Logger.LogInfo(Logs.Discord, $"Logged in as {client.CurrentUser.Username}");
         await RegisterCommands(client);
         Logging.Logger.LogInfo(Logs.Discord, "Slash commands registered");
-        await Task.Delay(-1); // Keep the program alive forever
+        await Task.Delay(-1); // Keep the bot alive forever
     }
 
     private static Task<String> GetToken()

@@ -29,7 +29,7 @@ public class ApplicationCommand : ApplicationCommandModule
                 var failEmbed = new DiscordEmbedBuilder()
                     .WithTitle("Application")
                     .WithDescription("You have already applied.")
-                    .WithColor(DiscordColor.Blurple);
+                    .WithColor(DiscordColor.Red);
                 await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(failEmbed));
                 return;
             }

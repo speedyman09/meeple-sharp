@@ -19,7 +19,7 @@ public class QueueCommand : ApplicationCommand
         var databaseService = new RealmDatabaseService();
         var applications = await databaseService.GetApplications(game);
 
-        var responseBuilder = new StringBuilder($"Queue for {game}:\n");
+        var responseBuilder = new StringBuilder();
         foreach (var application in applications)
         {
             responseBuilder.AppendLine(
@@ -27,7 +27,7 @@ public class QueueCommand : ApplicationCommand
         }
 
         var successEmbed = new DiscordEmbedBuilder()
-            .WithTitle("Queue")
+            .WithTitle($"Queue for {game}")
             .WithDescription(responseBuilder.ToString())
             .WithColor(DiscordColor.Blurple);
         await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(successEmbed));
