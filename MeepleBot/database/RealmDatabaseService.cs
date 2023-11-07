@@ -12,7 +12,7 @@ public class RealmDatabaseService
 
     public RealmDatabaseService()
     {
-        var config = new RealmConfiguration("meeplebot.realm")
+        var config = new RealmConfiguration(Path.Join(Environment.CurrentDirectory, "meeplebot.realm"))
         {
             SchemaVersion = 1,
         };
