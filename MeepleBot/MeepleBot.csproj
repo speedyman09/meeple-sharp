@@ -5,6 +5,8 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Configurations>Debug;Release;Deploy</Configurations>
+        <Platforms>AnyCPU;linux-arm64</Platforms>
     </PropertyGroup>
 
     <ItemGroup>

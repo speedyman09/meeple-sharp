@@ -13,6 +13,16 @@ public class NotifyCommand : ApplicationCommand
         DiscordUser user1
     )
     {
+        var hasRole = context.Member.Roles.Any(role => role.Name.Equals("bot"));
+        if (!hasRole)
+        {
+            var failedEmbed = new DiscordEmbedBuilder()
+                .WithTitle("Permissions")
+                .WithDescription("You can't do this lol")
+                .WithColor(DiscordColor.Red);
+            await context.CreateResponseAsync(new DiscordInteractionResponseBuilder().AddEmbed(failedEmbed));
+            return;
+        }
         await context.DeferAsync(ephemeral: true);
 
         var databaseService = new RealmDatabaseService();
